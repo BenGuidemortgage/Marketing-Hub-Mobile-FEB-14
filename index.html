@@ -60,7 +60,8 @@
             purchase: {
                 statusText: [
                     "JUST CLOSED!", "WELCOME HOME!", "KEYS DELIVERED!", "SOLD!", 
-                    "OFFICIALLY YOURS!", "DREAM HOME!", "ANOTHER ONE!", "HOME SWEET HOME"
+                    "OFFICIALLY YOURS!", "DREAM HOME!", "ANOTHER ONE!", "HOME SWEET HOME",
+                    "CONGRATULATIONS!", "CLOSED & FUNDED"
                 ],
                 borrowerStory: [
                     "Another smooth closing! We successfully navigated a complex application to get this family into their dream home.",
@@ -611,12 +612,26 @@
                         ctx.fillStyle = profile.primaryColor; ctx.font = "900 60px Montserrat"; ctx.textAlign = "center";
                         ctx.fillText(content.statusText.toUpperCase(), 540, 90);
                     } else {
+                        // --- DYNAMIC BANNER LOGIC ---
+                        ctx.font = "900 60px Montserrat";
+                        const txtW = ctx.measureText(content.statusText.toUpperCase()).width;
+                        // Min width 600, Max width W-80 (1000px), Padding 120px
+                        let bannerW = Math.max(600, txtW + 120);
+                        if (bannerW > W - 80) bannerW = W - 80;
+                        const bannerX = (W - bannerW) / 2;
+
                         const g = ctx.createLinearGradient(40, bannerY, 1040, bannerY);
                         g.addColorStop(0, "#ca8a04"); g.addColorStop(1, "#facc15");
                         ctx.fillStyle = g; 
-                        ctx.beginPath(); ctx.roundRect(240, bannerY, 600, 90, 10); ctx.fill();
-                        ctx.fillStyle = "#FFFFFF"; ctx.font = "900 60px Montserrat"; ctx.textAlign = "center";
-                        ctx.fillText(content.statusText.toUpperCase(), 540, bannerY + 45 + 20);
+                        
+                        ctx.beginPath(); 
+                        ctx.roundRect(bannerX, bannerY, bannerW, 90, 10); 
+                        ctx.fill();
+                        
+                        ctx.fillStyle = "#FFFFFF"; 
+                        ctx.font = "900 60px Montserrat"; 
+                        ctx.textAlign = "center";
+                        ctx.fillText(content.statusText.toUpperCase(), W/2, bannerY + 45 + 20);
                         
                         ctx.textAlign = "right"; ctx.fillStyle = profile.primaryColor; ctx.font = "800 50px Montserrat";
                         ctx.fillText(profile.name.toUpperCase(), 1040, 85);
